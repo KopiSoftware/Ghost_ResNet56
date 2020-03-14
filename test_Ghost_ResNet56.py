@@ -1,6 +1,9 @@
 import torch
 import torchvision
 import torchvision.transforms as transforms
+import torch.nn as nn
+import torch.nn.functional as F
+import torch.optim as optim
 from ghost_net import ghost_net
 import Ghost_ResNet
 
@@ -19,13 +22,14 @@ testloader = torch.utils.data.DataLoader(testset, batch_size=batch_size,
 classes = ('plane', 'car', 'bird', 'cat',
            'deer', 'dog', 'frog', 'horse', 'ship', 'truck')
 
-net = ghost_net(width_mult=1.0)
+#net = ghost_net(width_mult=1.0)
+net = Ghost_ResNet.resnet56()
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 net.to(device)
 
 
-net.load_state_dict(torch.load("ghostnet.weights"))
+net.load_state_dict(torch.load("gRes560.weights"))
 net.eval()
 
 

@@ -4,7 +4,7 @@ import torchvision.transforms as transforms
 import torch.nn as nn
 import torch.optim as optim
 from matplotlib import pyplot as plt
-from ghost_net import ghost_net
+import Ghost_ResNet
 plt.rcParams['figure.dpi']=50 
 epochs = 10
 batch_size = 200
@@ -18,12 +18,17 @@ trainset = torchvision.datasets.CIFAR10(root='./data', train=True,
 trainloader = torch.utils.data.DataLoader(trainset, batch_size=batch_size,
                                           shuffle=True)
  
+#testset = torchvision.datasets.CIFAR10(root='./data', train=False,
+                                       #download=True, transform=transform)
+#testloader = torch.utils.data.DataLoader(testset, batch_size=4,
+                                         #shuffle=False)
+ 
 classes = ('plane', 'car', 'bird', 'cat',
            'deer', 'dog', 'frog', 'horse', 'ship', 'truck')
 
 
-#net = Ghost_ResNet.resnet56()
-net = ghost_net(width_mult=1.0)
+net = Ghost_ResNet.resnet56()
+#net = ghost_net(width_mult=1.0)
 
 
 criterion = nn.CrossEntropyLoss()
@@ -40,7 +45,7 @@ def show_loss(plt_loss):
 
 def train(resume):
     if resume == True:
-        net.load_state_dict(torch.load("ghostnet.weights"))
+        net.load_state_dict(torch.load("gRes563.weights"))
     for epoch in range(epochs):
         print("epoch:"+str(epoch+1))
         for i, data in enumerate(
@@ -58,8 +63,8 @@ def train(resume):
             plt_loss.append(loss.item())
             print('[%d, %5d] loss: %.4f' %(epoch + 1, (i+1)*batch_size, loss.item()))
         show_loss(plt_loss)
-        torch.save(net.state_dict(), 'ghostnet'+str(epoch+1)+'.weights')
-    torch.save(net.state_dict(), 'ghostnet.weights')
+        torch.save(net.state_dict(), 'gRes56'+str(epoch+1)+'.weights')
+    torch.save(net.state_dict(), 'gRes56.weights')
     
 train(resume=True)
 #test()
