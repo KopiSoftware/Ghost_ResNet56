@@ -29,7 +29,7 @@ device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 net.to(device)
 
 
-net.load_state_dict(torch.load("gRes560.weights"))
+net.load_state_dict(torch.load("gRes56.weights"))
 net.eval()
 
 
